@@ -23,4 +23,10 @@ code {
   padding-left: 80px;
 }
 
+.home img{
+  position: absolute;
+  top :160px;
+  left : 160px;
+  opacity: 0.4;
+}
 
