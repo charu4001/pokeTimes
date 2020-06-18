@@ -18,18 +18,25 @@ export async function getWeatherByLocation(cityName: string): weatherInfo{
                
         const completeUrl = url + cityName +'&appid=' + apiKey;
 
-        const {data} = await axios.get(completeUrl);
+        const {data} = await axios({
+                        method: 'get',
+                        url: completeUrl,
+                        responseType: 'stream'
+                        });
 
         let res = data;
+        console.log('res',res);
         
         const wthr: weatherInfo ={
         
             location: res.name,
             currTemp: res.main.temp,
             minTemp: res.main.temp_min,
-            maxTemp: res.main.maxTemp,
-            feelsLike: res.main.feelsLike
+            maxTemp: res.main.temp_max,
+            feelsLike: res.main.feels_like
         };
-        
+
+        console.log('wthr',wthr);
+
         return wthr;
 }

@@ -14,6 +14,8 @@ import GolfR from '../golfR.jpg';
 import Undraw_travelers_qlt1 from '../undraw_travelers_qlt1.png';
 import {getWeatherByLocation} from './NetworkUtil';
 
+import Demo from './Demo';
+import GoogleMap from './GoogleMap';
 
 /*
 Todos :
@@ -24,12 +26,12 @@ Refine the look and feel
 
 class Home extends Component {
     state ={
-            wthr:[]
+            wthrFromCity:[],
+            wthrToCity:[]
+
         };
 
     handleChangeFrom = (e) => {
-
-        console.log('inside handle click');
 
         this.setState({[e.target.name]:e.target.value})
         
@@ -37,8 +39,6 @@ class Home extends Component {
     }
 
     handleChangeTo = (e) => {
-
-        console.log('inside handle click');
 
         this.setState({[e.target.name]:e.target.value})
         
@@ -60,96 +60,128 @@ class Home extends Component {
         const fromCityName = this.state.fromcity;//'Calgary';
         const toCityName = this.state.tocity;//'Calgary';
 
-        console.log('from and to ciy name:',fromCityName,toCityName);
+        console.log('from and to city name:',fromCityName,toCityName);
 
         //debugger;
 
-        const result1 = '';
+        var that = this;
+       
+        const wthrFromCity = getWeatherByLocation(fromCityName);
+        var p1 = Promise.resolve(wthrFromCity);
+        console.log('p',p1);
+        p1.then(function(valWthrFromCity) {
+        console.log(valWthrFromCity); // 1
+        that.setState({wthrFromCity: valWthrFromCity});
+        
+        }); 
 
         
-        const rs = getWeatherByLocation(fromCityName);
+        
 
-        //const rs2 = getWeatherByLocation(fromCityName).resolve('Success').then(function (response){ return response.data});
+       const wthrToCity = getWeatherByLocation(toCityName);
+       var p2 = Promise.resolve(wthrToCity);
+        console.log('p2',p2);
+        p2.then(function(valWthrToCity) {
+        console.log(valWthrToCity); // 1
+        that.setState({wthrToCity: valWthrToCity});
+        });
 
-        // const rs3 = getWeatherByLocation(fromCityName).then (data =>{
-        //      res.json({ message: 'Request received!', data })
-        //      console.log('data',data);
-        // })
-    
-// axiosTest().then(data => {
-//   response.json({ message: 'Request received!', data })
-// })
+        console.log('state here ',this.state);
+    //    this.setState({wthr: wthrFromCity});
+    //    this.setState({wthr: wthrToCity});
 
-       console.log('rs',rs);
-    //    console.log('rs3',rs);
-
-       this.setState({wthr: rs});
-       //console.log('rs2',rs2);
-       //console.log(result1);
     }
     
     render(){
-        const {wthr}= this.state.wthr;
+        
+        const wfc= this.state.wthrFromCity;
+        const wtc= this.state.wthrToCity;
 
         console.log('State below');
         console.log(this.state);
 
+        console.log('wthrFromCity below');
+        console.log(wfc);
+        console.log('wthrToCity below');
+        console.log(wtc);
+
+
+
         // console.log('Length below');
         // console.log(wthr.id);
 
-        const myFromCity =(<input type="text" placeholder = 'From city' name="fromcity" value={this.state.fromcity} onChange={this.handleChangeFrom}></input>);
+        const myFromCity =(<input type="text" placeholder = 'From city' name="fromcity"   value={this.state.fromcity} onChange={this.handleChangeFrom}></input>);
 
-        const myToCity =(<input type="text" placeholder = 'To city' name="tocity" value={this.state.tocity} onChange={this.handleChangeTo}></input>);
+        const myToCity =(<input type="text" placeholder = 'To city' name="tocity"  value={this.state.tocity} onChange={this.handleChangeTo}></input>);
 
-        console.log('myFromCity below');
-        console.log(myFromCity);
+        // console.log('myFromCity below');
+        // console.log(myFromCity);
         
-        console.log('myToCity below');
-        console.log(myToCity);
+        // console.log('myToCity below');
+        // console.log(myToCity);
 
-        const myButton = ( <button onClick={this.handleclick}>Get Temperature</button>);
+        const myButton = ( <button  onClick={this.handleclick}>Get Weather</button>);
 
-        // const weath = wthr.id ? (
+         const fromWeath //='Hello';
+         = wfc.location ? (
             
-        //             <div>
-        //                     <p>City: {wthr.name}</p>
-        //                     <p>Temperature: {wthr.main.temp}</p>
-        //                     <p>Feels Like: {wthr.main.feels_like}</p>
-        //                     <p>Temp Min: {wthr.main.temp_min}</p>
-        //                     <p>Temp Max: {wthr.main.temp_max}</p>
+                    <div>
+                            <p>City: {wfc.location}</p>
+                            <p>Temperature: {wfc.currTemp}</p>
+                            <p>Feels Like: {wfc.feelsLike}</p>
+                            <p>Temp Min: {wfc.minTemp}</p>
+                            <p>Temp Max: {wfc.maxTemp}</p>
 
-        //                     <p>
-        //                     {console.log(wthr.weather[0].main)}
-        //                     {(() => {
-        //                         switch (wthr.weather[0].main) {
-        //                         case "Clouds": return (<img src = {Undraw_raining_sguh} alt='undraw_raining_sguh'/>);
-        //                         case "Clear": return (<img src ={Undraw_sunny_day_bk3m} alt='undraw_sunny_day_bk3m'/>);
-        //                         case "Windy":  return (<img src ={Undraw_windy_day_x63l} alt='undraw_windy_day_x63l'/>);
-        //                         case "Snow":  return (<img src ={Undraw_winter_magic_5xu2} alt='undraw_winter_magic_5xu2'/>);
-        //                         default:      return (<img src ={GolfR} alt='golfR'/>);
-        //                         }
-        //                     })()}
-        //                     </p>
-        //             </div>
+                            <p>
+                            </p>
+                    </div>
              
 
-        // ) : (
+        ) : (
 
-        //     <p>No Data Yet</p>
+            <p>No Data Yet</p>
 
-        // )
+        )
+
+        const toWeath //='Hello';
+         = wtc.location ? (
+            
+                    <div>
+                            <p>City: {wtc.location}</p>
+                            <p>Temperature: {wtc.currTemp}</p>
+                            <p>Feels Like: {wtc.feelsLike}</p>
+                            <p>Temp Min: {wtc.minTemp}</p>
+                            <p>Temp Max: {wtc.maxTemp}</p>
+
+                            <p>
+                            </p>
+                    </div>
+             
+
+        ) : (
+
+            <p>No Data Yet</p>
+
+        )
 
 
     return(
-        <div className="container home">
-            <h4 className="center">{<img src = {Undraw_travelers_qlt1} alt='undraw_travelers_qlt1'/>}</h4>
-            <p>{myFromCity}</p>
-            <p>{myToCity}</p>
-            <p>{myButton}</p>
-            
+    
+        <div class="row" className="center">
+
+        <div> <Demo />  </div>
+        
+
+            <div  className="fromCityp">{myFromCity}
+                <view className = "fromWthrDtls">{fromWeath}</view>
+            </div>
+            <div className="toCityp">{myToCity}
+                <view className = "toWthrDtls">{toWeath}</view>
+            </div>
+            <div  classname="btn1">{myButton}</div>
         </div>
     )
 };
 }
-
+//{<img name ="bckgrnd" src = {Undraw_travelers_qlt1} alt='undraw_travelers_qlt1'/>}
 export default Home;

@@ -12,21 +12,57 @@ code {
     monospace;
 }
 
-.home .post img{
+.center{
+  display: flex;
+  flex-direction: row;
+  background-image: url('./undraw_travelers_qlt1.png');
+  background-repeat: no-repeat;
+  background-size: 800px 800px;
   position: absolute;
-  top :0px;
-  left : -80px;
-  opacity: 0.2;
-}
-.home .post img{
-  overflow: hidden;
-  padding-left: 80px;
+  top: 70px;
+  left: 70px;
+  height: 100%;
+  width: 100%;
+  flex:1;
+  
 }
 
-.home img{
-  position: absolute;
-  top :160px;
-  left : 160px;
-  opacity: 0.4;
+.fromCityp{
+  margin: 70px;
+  flex:1;
+}
+
+.toCityp{
+  margin: 70px;
+  flex:1;
+  
+}
+
+.btn1{
+  margin: 70px;
+  position: relative;
+  top: 270px;
+  flex:1;
+    
+}
+
+.fromWthrDtls{
+  
+  position: relative;
+  top: 20px; 
+  text-align: left;
+}
+
+.toWthrDtls{
+  
+  position: relative;
+  top: 20px;
+  text-align: left;
+}
+
+
+.brand-logo{
+  position: relative;
+  left: 650px;
 }
 
